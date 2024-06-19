@@ -208,4 +208,61 @@ This is how you send data from frontend to backend
 
 Sending Json:
 This is how you send data from backend to frontend
+create a file product.js
+It has variable that stores json data
+export it
+import it on index.js
+res.json(products) //to send data to browser
 
+middleware:
+middleware is a function that gets implemented between
+the path request and response callback function
+It has access to the req and res objects
+it can mosify the request or the response or use next 
+to go to next middleware function
+used to add functionality for the server application
+like for userlogin,authenticate user or authorize user
+log back something
+request ---> middleware(for login check)
+       response <-----
+middleware function is as follows:
+function usercredentials(req,res,next){
+    console.log("username:Sudha");
+    console.log("password:12345");
+}
+use that function in your get method
+app.get("/product/laptops",usercredentials,(req,res)=>{
+    res.json(products);
+})
+more better method:
+create a folder middleware and create file usercheck.js
+store your middleware function in this export it
+function usercredentials(req,res,next){
+    console.log("username:Sudha");
+    console.log("password:12345");
+    next();
+}
+export default usercredentials;
+Import it into your index.js
+import usercheck from './middleware/usercheck.js';
+app.get("/product/mobiles",usercheck,(req,res)=>{
+    res.json(products);
+})
+better method:
+In order to apply your middleware function
+to all the following http methods make use of 
+app.use() method
+implementation:
+app.use(usercheck)
+app.get("/product/mobiles/About",(req,res)=>{
+    res.json(products);
+})
+app.get("/product/mobiles/contact",(req,res)=>{
+    res.json(products);
+})
+In console you can see usercredentials applied to 
+all the following methods
+also can provide route to the app.use
+app.use("/apple",usercheck);
+
+Serving static files in express:

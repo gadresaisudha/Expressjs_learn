@@ -1,7 +1,8 @@
 import express from 'express';
 import shoes from './routes/shoes.js';
 import students from './routes/students.js';
-
+import products from './products.js';
+import usercheck from './middleware/usercheck.js';
 const app = express();
 app.get('/',(req,res)=>{
     res.send("<h1>Welcome to express js</h1>");
@@ -81,9 +82,33 @@ app.param("id",(req,res,next,id)=>{
 
  app.use("/students",students);
 
- app.get("/products",(req,res)=>{
+ app.get("/product",(req,res)=>{
     const {category,id} = req.query; //make sure to use the same name as in url
     res.send(`category,id : ${category}, ${id}`);
 }) //http://localhost:8000/products?category=laptop&id=123
 
+app.get("/products",(req,res)=>{
+    res.json(products);
+})
+
+function usercredentials(req,res,next){
+    console.log("username:Sudha");
+    console.log("password:12345");
+    next();
+}
+app.get("/product/laptops",usercredentials,(req,res)=>{
+    res.json(products);
+})
+
+app.get("/product/mobiles",usercheck,(req,res)=>{
+    res.json(products);
+})
+
+app.use(usercheck)
+app.get("/product/mobiles/About",(req,res)=>{
+    res.json(products);
+})
+app.get("/product/mobiles/contact",(req,res)=>{
+    res.json(products);
+})
 app.listen(8000,()=>console.log('server up'));
