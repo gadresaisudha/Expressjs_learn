@@ -3,6 +3,9 @@ import shoes from './routes/shoes.js';
 import students from './routes/students.js';
 import products from './products.js';
 import usercheck from './middleware/usercheck.js';
+import path, { join } from 'path';
+import router from './routes/routes.js';
+
 const app = express();
 app.get('/',(req,res)=>{
     res.send("<h1>Welcome to express js</h1>");
@@ -111,4 +114,13 @@ app.get("/product/mobiles/About",(req,res)=>{
 app.get("/product/mobiles/contact",(req,res)=>{
     res.json(products);
 })
+app.use(express.static('./public'));
+app.get('/servingstatic',(req,res)=>{
+    res.sendFile(path.join(process.cwd(),'./public/index.html'));
+    
+})
+app.set('view engine','ejs');
+app.use('/',router);
+
+
 app.listen(8000,()=>console.log('server up'));

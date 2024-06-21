@@ -266,3 +266,86 @@ also can provide route to the app.use
 app.use("/apple",usercheck);
 
 Serving static files in express:
+for that first create a public folder and create .html and .js files
+Put your html content and associated .js content in respective file
+Now in main index.js file inorder to server our static files
+use the following code
+app.use(express.static('./public'));
+app.get('/servingstatic',(req,res)=>{
+    res.sendFile(path.join(process.cwd(),'./public/index.html'));
+})
+By the above code we have served out index.htmlfrom public folder and associated files
+so using path.join we join cuurrent working directory and the file where there is 
+html content to display
+next using sendFile method we send the our localhost to that path
+
+Template Engine:
+A template engine enables you to use static template files in your application
+what is EJS -> Embedded Javascript
+To install EJS
+>>>>npm install ejs
+In the main index.js file:
+Inorder to let know expressJs that we are using EJS use the following code:
+app.set('view engine','ejs')
+Create Controllers folder and homeController.js file to define the callback function for routes
+const homeController = (req,res)=>{
+ res.render('home'); //name of ejs file
+}
+export {homeController};
+here render method is used to render the EJS file
+For the EJS files create new folder views
+home.ejs and give normal html content
+now our contoller and appropriate page to deliver is set
+now we have to mention the contoller in routes.js
+Now create a routes folder and route.js file to redirect the paths
+import express from 'express';
+import {homeController} from '../controllers/homeController.js';
+import {aboutController} from '../controllers/aboutController.js';
+const router = express.Router();
+router.get('/Home',homeController)
+router.get('/about',aboutController)
+export default router;
+Now use the default router in out main index.js
+app.set('view engine','ejs');
+app.use('/',router);
+Summary : main index.js set that it uses ejs and give the use method for all routes
+          In routes.js file provide http method,path and controllers
+          In contoller you have your callback function where  you use render which means
+          render ejs files
+
+EJS crash course:
+follow above steps and create the same template for about.ejs
+In order to display a variable on our about.ejs file
+first we need to send it from contoller:
+in contoller make the following changes:
+const aboutController = (req,res)=>{
+    const data = {
+        name : "Sudha",
+    };
+    res.render('about', data);
+}
+export {aboutController};
+Now in about.ejs file use <%= %> // for dynamic content
+<body>
+  <%= name %>
+  <%= name.toUppercase() %>
+  2+2 = <%= 2+2 %>
+  <h1>About from EJS </h1>
+</body>
+conditional statement:
+update contoller to send userId
+<% if(userId===20){ %>
+    <h1>User Id <%=userId%></h1>
+  <%} else if(userId===30){%>
+    <h2>User Id <%=userId%></h2>
+    <%}else {%>
+      <h1>Nothing</h1>
+    <%}%>
+For loops:
+ <% for (let i = 0;i<3;i++) { %>
+    <h1><%=i%></h1>
+    <% } %> 
+    <%const data = [1,2,3,4,5] %> 
+   <% for (const key in data) { %> 
+    <h1><%=key %></h1>
+    <% } %> 

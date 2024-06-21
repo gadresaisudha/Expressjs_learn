@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+</head>
+<body>
+  <%= name %>
+  <h1>About from EJS </h1>
+  <% if(userId===20){ %>
+    <h1>User Id <%=userId%></h1>
+  <%} else if(userId===30){%>
+    <h2>User Id <%=userId%></h2>
+    <%}else {%>
+      <h1>Nothing</h1>
+    <%}%>
+   <% for (let i = 0;i<3;i++) { %>
+    <h1><%=i%></h1>
+    <% } %> 
+    <%const data = [1,2,3,4,5] %> 
+   <% for (const key in data) { %> 
+    <h1><%=key %></h1>
+    <% } %> 
+</body>
+</html>
