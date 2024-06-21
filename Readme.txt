@@ -349,3 +349,11 @@ For loops:
    <% for (const key in data) { %> 
     <h1><%=key %></h1>
     <% } %> 
+
+
+If we want to send JSON data via post method through postman
+and want to get the data from req.body
+we need to have body-parser
+import that module 'body-parser'
+and use the following code
+app.use(bodyParser.json())
